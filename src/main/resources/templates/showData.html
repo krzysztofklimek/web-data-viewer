@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title></title>
+
+<script src="https://code.jquery.com/jquery-1.11.2.js"
+	integrity="sha256-WMJwNbei5YnfOX5dfgVCS5C4waqvc+/0fV7W2uy3DyU="
+	crossorigin="anonymous"></script>
+
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+
+<script type="text/javascript" charset="utf8"
+	src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#table_id').DataTable( {
+        "processing": "true",
+        "serverSide": "true",
+        "ajax": {
+        	"url": 'http://localhost:8080/Json',
+         	"data": function (d) {
+                return {
+                    page: d.start/d.length,
+                    size: d.length
+                }
+            }, 
+            dataSrc: function(data) {
+    	        data.recordsTotal = data.totalElements;
+    	        data.recordsFiltered = data.totalElements;
+                data.data = data.content;
+                return data.data
+            } 
+     	},
+        columns: [
+        	{ data: 'id' },
+            { data: 'name' }
+        ]
+    } );
+} );
+</script>
+
+
+
+
+</head>
+
+<body>
+
+	<table id="table_id" class="display">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Name</th>
+			</tr>
+		</thead>
+	</table>
+
+</body>
+</html>
